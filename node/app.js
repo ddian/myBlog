@@ -1,19 +1,36 @@
 'use strict';
 var express = require('express');
-// var path = require('path');
+var path = require('path');
 var fs = require('fs');
 
 var app = express();
 
-// app.use(express.static(path.join(__dirname,'bootstrap')));
+app.use(express.static(path.join(__dirname,'../static')));
+/* 
+static是充当中间件(Middleware)的角色.
+Express框架是依赖Connect创建的，use方法是Connect提供的，用来注册一个中间件到Connect中间件队列。
+中间件：类似于一个过滤器的东西，在客户端和应用程序之间的一个处理请求和响应的方法。
+Connect：nodejs一个模块，可以创建中间件的一个框架，自身已经包装了Node的HTTP模块的Server以及Server的req和res的对象，功能就是处理请求，响应客户端或是让下一个中间件继续处理。
+path.join连接文件路径 path.join('a','b','c')->a/b/c
+*/
 
-app.get('/',function(req,res){
+app.get('/site/get-blog',function(req,res){
+	console.log(req,res);
+	if(req.query.id===1){
+		res.send({
+			code:0,
+			id:1,
+			message:'jiekoudage'
+		});
+	}	
+});
+
+/*app.get('/',function(req,res){
 	fs.readFile('../index.html','utf-8',function(err,data){
 		if(err)throw err;
 		console.log(data);
 		res.setHeader('content-type','text/html;charset=utf-8');
 		res.write(data);
-		res.render();
 		res.end();
 	});	
 });
@@ -151,7 +168,7 @@ app.get('/img/bg.jpg',function(req,res){
 		res.write(data);
 		res.end();
 	});
-});
-app.listen(9001,function(req,res){
-	console.log('app is running at prt 9001');
+});*/
+app.listen(9002,function(req,res){
+	console.log('app is running at prt 9002');
 });

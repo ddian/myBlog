@@ -1,7 +1,7 @@
 'use strict';
-var app = angular.module('myApp',['ui.router', 'lr.upload']);
+/*var app = angular.module('myApp',['ui.router', 'lr.upload']);
 
-app.controller('indexCtrl',function($scope){
+app.controller('indexCtrl',['$scope','blog','MyError','MyHttp',function($scope,blog,MyError,MyHttp){
 	console.log('index controller');
 	$scope.message = '';
 	$scope.toTop = function(){
@@ -19,5 +19,10 @@ app.controller('indexCtrl',function($scope){
 			document.body.scrollTop = document.documentElement.scrollTop = $scope.curScrollTop - $scope.speed;
 		},30);
 	};
+	$scope.changePages = function(){
+		blog.getBlog().then(function(data){
+			console.log(data);
+		})
+	}
 
-});
+}]);*/
