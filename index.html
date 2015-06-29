@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>myBlog</title>
+	<link rel="stylesheet" type="text/css" href="../../bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../../css/index.css">
+	<script type="text/javascript" src="../../js/lib/angular.js"></script>
+	<script type="text/javascript" src="../../js/lib/angular-upload.min.js"></script>
+	<!-- // <script type="text/javascript" src="../../js/lib/angular.min.js"></script> -->
+	<script type="text/javascript" src="../../js/lib/angular-ui-router.js"></script>
+	<!-- // <script type="text/javascript" src="../../js/lib/ui-router.js"></script> -->
+	<base href="/">
+</head>
+<body ng-controller="indexCtrl">
+	<ng-include src="'/views/include/nav.html'"></ng-include>
+	<section class="myblog_container container">
+		<ng-include src="'/views/include/bg.html'"></ng-include>
+		<div ui-view></div>
+	</section>
+	<ng-include src="'/views/include/footer.html'"></ng-include>
+	<script type="text/javascript" src="/js/app/main.js"></script>
+</body>
+</html>
