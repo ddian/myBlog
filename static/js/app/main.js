@@ -52,8 +52,8 @@ app.factory('blog',['myHttp',function(myHttp){
 	/*获取blog
 	*return {Object}
 	 */
-	blog.getBlog = function(){
-		return myHttp.get('/site/get-blog');
+	blog.getBlog = function(id){
+		return myHttp.get('/site/get-blog',{params:{id:id}});
 	};
 	return blog;
 }]);
@@ -80,26 +80,51 @@ app.controller('indexCtrl',['$scope','blog','MyError','myHttp',function($scope,b
 	};
 	/*获取详情页数据*/
 	$scope.changePages = function(id){
-		alert(1);
+		// alert(id);
 		blog.getBlog(id).then(function(data){
 			console.log(data);
-		})
-	}
-
+			alert(data);
+		},function(err){
+			console.log(err);
+		});
+	};
 }]);
 
 /*profile 控制器*/
 app.controller('profileCtrl',function($scope){
-	$scope.message = 'this is profile';
+	// $scope.message = 'this is profile';
 });
 /*Link控制器*/
 app.controller('linkCtrl',function($scope){
-	$scope.message = '';
+	// $scope.message = '';
 });
 /*阅读详情控制器*/
-app.controller('readmoreCtrl',function($scope){
-	$scope.message = '';
-});
+app.controller('readmoreCtrl',['$scope','blog',function($scope,blog){
+	// $scope.message = '';
+	$scope.content={};
+	$scope.readmore = function(id){
+		blog.getBlog(id).then(function(data){
+			console.log(data);
+			$scope.content.title= data.title;
+			$scope.content.month = data.month;
+			$scope.content.day = data.day;
+			$scope.content.year = data.year;
+			$scope.content.author = data.author;
+			$scope.content.firstParagraph = data.content[0].firstParagraph;
+			$scope.content.secondParagraph = data.content[0].secondParagraph;
+			$scope.content.introduction = data.content[0].introduction;
+			$scope.content.heading = data.content[0].heading;
+			$scope.content.headingContent = data.content[0].headingContent;
+			$scope.content.subHeading = data.content[0].subHeading;
+			$scope.content.subHeadingContent = data.content[0].subHeadingContent;
+			$scope.content.summary= data.content[0].summary;
+			$scope.content.quote = data.quote;
+			$scope.content.strongWord = data.strongWord;
+			$scope.content.code = data.content[0].code;
+		});
+	};
+	
+}]);
 
 /*设置路由*/
 app.config([

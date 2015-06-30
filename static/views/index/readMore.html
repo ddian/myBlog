@@ -1,43 +1,38 @@
-<div class="row">
+<div class="row" ng-init="readmore(1)">
 	<div class="col-md-12">
 		<div class="blog-post">
-			<h2 class="blog-post-title">A blog</h2>
+			<h2 class="blog-post-title">{{content.title}}</h2>
 			<p class="blog-post-date">
-				July 13，2015 by
-				<a href="javascript:;">Jenny</a>
+				{{content.month}} {{content.day}} ,{{content.year}}by
+				<a href="javascript:;">{{content.author}}</a>
 			</p>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{content.introduction}}
 			</p>
 			<hr>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{content.firstParagraph}}
 			</p>
+			<p>{{content.secondParagraph}}</p>
 			<blockquote>
 				<p>
-					This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-					<strong>and code are all supported.</strong>
+					{{content.quote}}
+					<strong>{{content.strongWord}}</strong>
 				</p>
 			</blockquote>
-			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-			</p>
 			<pre>
-				<code>code</code>
+				<code>{{content.code}}</code>
 			</pre>
-			<h2>Heading</h2>
+			<h2>{{content.heading}}</h2>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{content.headingContent}}
 			</p>
-			<h3>sub_heading</h3>
+			<h3>{{content.subHeading}}</h3>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{content.subHeadingContent}}
 			</p>
+			<h3>Summary</h3>
+			<p>{{content.summary}}</p>
 		</div>
 		
 	</div>

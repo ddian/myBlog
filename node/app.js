@@ -14,15 +14,44 @@ Connect：nodejs一个模块，可以创建中间件的一个框架，自身已�
 path.join连接文件路径 path.join('a','b','c')->a/b/c
 */
 
+/*
+获取blog接口send {object}
+ */
 app.get('/site/get-blog',function(req,res){
-	console.log(req,res);
-	if(req.query.id===1){
+	// console.log(req,res);
+	console.log(req.query.id);
+	if(req.query.id==1){
 		res.send({
 			code:0,
 			id:1,
-			message:'jiekoudage'
+			data:{
+				id:1,
+				title:'This a Blog title',
+				month:'Februrary',
+				day:'1',
+				year:'2016',
+				author:'diandian',
+				strongWord:'strongWord',
+				content:[{
+					introduction:'introduction',
+					firstParagraph:'fistParagraph',
+					secondParagraph:'secondParagraph',
+					mainContent:'mainContent',
+					code:'codecodecodecodecode',
+					heading:'heading',
+					headingContent:'headingContent',
+					subHeading:'subHeading',
+					subHeadingContent:'subHeadingContent',
+					summary:'summary'
+				}],
+				quote:'quote'
+			}		
 		});
+		res.end();
 	}	
+});
+app.listen(9002,function(req,res){
+	console.log('app is running at prt 9002');
 });
 
 /*app.get('/',function(req,res){
@@ -169,6 +198,3 @@ app.get('/img/bg.jpg',function(req,res){
 		res.end();
 	});
 });*/
-app.listen(9002,function(req,res){
-	console.log('app is running at prt 9002');
-});
