@@ -55,8 +55,12 @@ app.factory('blog',['myHttp',function(myHttp){
 	blog.getBlog = function(id){
 		return myHttp.get('/site/get-blog',{params:{id:id}});
 	};
+	blog.getBlogList = function(){
+		return myHttp.get('/site/get-blog-list');
+	};
 	return blog;
 }]);
+
 
 /*首页controller */
 app.controller('indexCtrl',['$scope','blog','MyError','myHttp',function($scope,blog,MyError,myHttp){
@@ -79,7 +83,7 @@ app.controller('indexCtrl',['$scope','blog','MyError','myHttp',function($scope,b
 		},30);
 	};
 	/*获取详情页数据*/
-	$scope.changePages = function(id){
+	/*$scope.changePages = function(id){
 		// alert(id);
 		blog.getBlog(id).then(function(data){
 			console.log(data);
@@ -87,8 +91,28 @@ app.controller('indexCtrl',['$scope','blog','MyError','myHttp',function($scope,b
 		},function(err){
 			console.log(err);
 		});
+	};*/
+	$scope.renderList = function(){
+		// alert(1);
+		blog.getBlogList().then(function(data){
+
+			$scope.blogList = data.blogList;
+			console.log($scope.blogList);
+			$scope.pagination = data.pages;
+			console.log($scope.pagination);
+			$scope.pagination.isFirstPage = +$scope.pagination.page_number === 1;
+			$scope.pagination.isLastPage = +$scope.pagination.page_number === +$scope.pagination.page_count;
+		},function(err){
+			console.log(err);
+		});
 	};
-}]);
+	/*$scope.switchPage = function(page){
+		console.log(page);
+		if(page<1)page=1;
+		if(page>$scope.pagination.page_count)page = $scope.pagination.page_count;
+		
+	};
+*/}]);
 
 /*profile 控制器*/
 app.controller('profileCtrl',function($scope){

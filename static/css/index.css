@@ -12,6 +12,21 @@ body,html{
 	width: 100%;
 	background-color:#eee;
 }
+/*bootstrap样式重置开始*/
+.pagination>li>a{
+	background-color:#ea4c89;
+	color:#fff;
+	border: 1px solid #fff;
+	
+}
+.pagination>li>a:hover,
+.pagination>li>a:focus
+{
+	background-color:#1fd7b3;
+	color:#fff;
+	border: 1px solid #fff;
+}
+/*bootstrap样式重置结束*/
 nav.navbar{
 	background-color: #000;
 }

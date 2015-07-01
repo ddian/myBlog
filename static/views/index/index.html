@@ -1,49 +1,62 @@
-<div class="row">
+<div class="row" ng-init="renderList()">
 	<div class="col-md-8">
-		<div class="blog-post">
-			<h2 class="blog-post-title">A blog</h2>
+		<div class="blog-post" ng-repeat="blog in blogList">
+			<h2 class="blog-post-title">{{blog.title}}</h2>
 			<p class="blog-post-date">
-				July 13，2015 by
-				<a href="javascript:;">Jenny</a>
+				{{blog.month}} {{blog.day}},{{blog.year}} by
+				<a href="javascript:;">{{blog.author}}</a>
 			</p>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{blog.content[0].introduction}}
 			</p>
 			<hr>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{blog.content[0].firstParagraph}}
 			</p>
 			<blockquote>
 				<p>
-					This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-					<strong>and code are all supported.</strong>
+					{{blog.quote}}
+					<strong>{{blog.strongWord}}</strong>
 				</p>
 			</blockquote>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{blog.content[0].secondParagraph}}
 			</p>
-			<pre>
-				<code>code</code>
+			<!-- <pre>
+				<code>{{blog.content[0].code}}</code>
 			</pre>
-			<h2>Heading</h2>
+			<h2>{{blog.content[0].heading}}</h2>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
+				{{blog.content[0].headingContent}}
 			</p>
-			<h3>sub_heading</h3>
+			<h3>{{blog.content[0].subHeading}}</h3>
 			<p>
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-				This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.
-			</p>
+				{{blog.content[0].subHeadingContent}}
+			</p> -->
 			<a href="/index/readmore" class="readmore">点击查看详情……</a>
 		</div>
-		<nav>
+		<!-- <nav>
 			<ul class="pager">
 				<li><a href="javascript:;">Previous</a></li>
 				<li><a href="javascript:;">Next</a></li>
+			</ul>
+		</nav> -->
+		<nav>
+			<span class="pagination pull-right" style="line-height:30px;margin-left:20px;color:#ea4c89;">共{{pagination.page_count}}页</span>
+			<ul class="pagination pull-right">
+				<li>
+					<a href="#" ng-click = "switchPage(pagination.page_number-1)" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">{{pagination.page_number}}</a>
+				</li>
+				<li>
+					<a href="#" ng-click = "switchPage(pagination.page_number+1)" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</div>

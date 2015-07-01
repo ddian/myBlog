@@ -50,6 +50,87 @@ app.get('/site/get-blog',function(req,res){
 		res.end();
 	}	
 });
+app.get('/site/get-blog-list',function(req,res){
+	res.send({
+		code:0,
+		data:{
+			blogList:{
+				0:{
+					id:0,
+					title:'Blog title00',
+					month:'Februrary',
+					day:'1',
+					year:'2016',
+					author:'diandian1',
+					strongWord:'strongWord1',
+					content:[{
+						introduction:'introduction1',
+						firstParagraph:'fistParagraph1',
+						secondParagraph:'secondParagraph1',
+						mainContent:'mainContent1',
+						code:'codecodecodecodecode1',
+						heading:'heading1',
+						headingContent:'headingContent1',
+						subHeading:'subHeading1',
+						subHeadingContent:'subHeadingContent1',
+						summary:'summary1'}],
+					quote:'quote1'
+				},
+				1:{
+					id:1,
+					title:'This a Blog title01',
+					month:'Februrary',
+					day:'2',
+					year:'2016',
+					author:'diandian2',
+					strongWord:'strongWord2',
+					content:[{
+						introduction:'introduction2',
+						firstParagraph:'fistParagraph2',
+						secondParagraph:'secondParagraph2',
+						mainContent:'mainContent2',
+						code:'codecodecodecodecode2',
+						heading:'heading2',
+						headingContent:'headingContent2',
+						subHeading:'subHeading2',
+						subHeadingContent:'subHeadingContent2',
+						summary:'summary2'}],
+					quote:'quote2'
+				},
+				2:{
+					id:2,
+					title:'Blog title02',
+					month:'Februrary',
+					day:'3',
+					year:'2016',
+					author:'diandian3',
+					strongWord:'strongWord3',
+					content:[{
+						introduction:'introduction3',
+						firstParagraph:'fistParagraph3',
+						secondParagraph:'secondParagraph3',
+						mainContent:'mainContent3',
+						code:'codecodecodecodecode3',
+						heading:'heading3',
+						headingContent:'headingContent3',
+						subHeading:'subHeading3',
+						subHeadingContent:'subHeadingContent3',
+						summary:'summary3'}],
+					quote:'quote3'
+				}
+			},
+			pages:{
+				isFirstPage:true,
+				isLastPage:true,
+				page_capacity:20,
+				page_count:1,
+				page_number:1,
+				total_count:'4'
+			}
+		}
+	});
+	res.end();
+});
 app.listen(9002,function(req,res){
 	console.log('app is running at prt 9002');
 });
