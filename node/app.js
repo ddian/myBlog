@@ -2,7 +2,6 @@
 var express = require('express');
 var path = require('path');
 var fs = require('fs');
-
 var app = express();
 
 app.use(express.static(path.join(__dirname,'../static')));
@@ -13,12 +12,29 @@ Express框架是依赖Connect创建的，use方法是Connect提供的，用来�
 Connect：nodejs一个模块，可以创建中间件的一个框架，自身已经包装了Node的HTTP模块的Server以及Server的req和res的对象，功能就是处理请求，响应客户端或是让下一个中间件继续处理。
 path.join连接文件路径 path.join('a','b','c')->a/b/c
 */
-
+/*连接数据库*/
+var mysql = require('mysql');
+var con = mysql.createConnection({
+	host:'localhost',
+	user:'root',
+	password:'admin',
+	database:'blog',
+	port:9002
+});
+con.connect(function(err){
+	if(err){
+		console.error('error connecting:'+rr.stack);
+		return
+	}
+	console.log('connected as id'+connection.threadId);
+});
+var response = con.query('select * from blogList');
+console.log(response);
+con.end();
 /*
 获取blog接口send {object}
  */
 app.get('/site/get-blog',function(req,res){
-	// console.log(req,res);
 	console.log(req.query.id);
 	if(req.query.id==1){
 		res.send({
@@ -123,7 +139,7 @@ app.get('/site/get-blog-list',function(req,res){
 				isFirstPage:true,
 				isLastPage:true,
 				page_capacity:20,
-				page_count:1,
+				page_count:4,
 				page_number:1,
 				total_count:'4'
 			}
