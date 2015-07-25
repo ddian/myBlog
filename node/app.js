@@ -14,23 +14,25 @@ path.join连接文件路径 path.join('a','b','c')->a/b/c
 */
 /*连接数据库*/
 var mysql = require('mysql');
-var con = mysql.createConnection({
+var conn = mysql.createConnection({
 	host:'localhost',
 	user:'root',
 	password:'admin',
 	database:'blog',
-	port:9002
+	port:3306
 });
-con.connect(function(err){
-	if(err){
-		console.error('error connecting:'+rr.stack);
-		return
-	}
-	console.log('connected as id'+connection.threadId);
+conn.connect();
+
+var insertSql = 'insert into blogList';
+var selectSql = 'select * from blogList';
+var deleteSql = 'delete from blogList';
+
+
+conn.query('select * from blogList', function(err, rows, fields) {
+    if (err) throw err;
+    console.log(rows);
 });
-var response = con.query('select * from blogList');
-console.log(response);
-con.end();
+conn.end();
 /*
 获取blog接口send {object}
  */
