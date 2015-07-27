@@ -23,277 +23,92 @@ var conn = mysql.createConnection({
 });
 conn.connect();
 
-var insertSql = 'insert into blogList';
-var selectSql = 'select * from blogList';
-var deleteSql = 'delete from blogList';
+var insertSql = 'insert into blogList (id,title,dateTime,author,heading,subHeading,content,summary) values (2,"title02","2014-07-25 10:09:12","author02","heading02","subHeading02","content02","summary02")';
+var selectSql = 'select * from blogList where id = 2';
+var deleteSql = 'delete from blogList where id=2';
+var updateSql = 'update `blogList` set summary = "summary new" where id = 2';
 
-
-conn.query('select * from blogList', function(err, rows, fields) {
-    if (err) throw err;
-    console.log(rows);
+// delete
+conn.query(deleteSql,function(err0,res0){
+	if(err0)console.log(err0);
+	// console.log('delete return ==>');
+	// console.log(res0);
 });
-conn.end();
+// insert
+conn.query(insertSql,function(err1,res1){
+	if(err1)console.log(err1);
+	// console.log('INSERT Return ==> ');
+ //    console.log(res1);
+});
+//update
+conn.query(updateSql, function (err3, res3) {
+    if (err3) console.log(err3);
+    // console.log("UPDATE Return ==> ");
+    // console.log(res3);
+});
+
+
+
 /*
-获取blog接口send {object}
+获取某一篇博客
  */
 app.get('/site/get-blog',function(req,res){
-	console.log(req.query.id);
-	if(req.query.id==1){
-		res.send({
-			code:0,
-			id:1,
-			data:{
-				id:1,
-				title:'This a Blog title',
-				month:'Februrary',
-				day:'1',
-				year:'2016',
-				author:'diandian',
-				strongWord:'strongWord',
-				content:[{
-					introduction:'introduction',
-					firstParagraph:'fistParagraph',
-					secondParagraph:'secondParagraph',
-					mainContent:'mainContent',
-					code:'codecodecodecodecode',
-					heading:'heading',
-					headingContent:'headingContent',
-					subHeading:'subHeading',
-					subHeadingContent:'subHeadingContent',
-					summary:'summary'
-				}],
-				quote:'quote'
-			}		
-		});
-		res.end();
-	}	
-});
-app.get('/site/get-blog-list',function(req,res){
-	res.send({
-		code:0,
-		data:{
-			blogList:{
-				0:{
-					id:0,
-					title:'Blog title00',
-					month:'Februrary',
-					day:'1',
-					year:'2016',
-					author:'diandian1',
-					strongWord:'strongWord1',
-					content:[{
-						introduction:'introduction1',
-						firstParagraph:'fistParagraph1',
-						secondParagraph:'secondParagraph1',
-						mainContent:'mainContent1',
-						code:'codecodecodecodecode1',
-						heading:'heading1',
-						headingContent:'headingContent1',
-						subHeading:'subHeading1',
-						subHeadingContent:'subHeadingContent1',
-						summary:'summary1'}],
-					quote:'quote1'
-				},
-				1:{
-					id:1,
-					title:'This a Blog title01',
-					month:'Februrary',
-					day:'2',
-					year:'2016',
-					author:'diandian2',
-					strongWord:'strongWord2',
-					content:[{
-						introduction:'introduction2',
-						firstParagraph:'fistParagraph2',
-						secondParagraph:'secondParagraph2',
-						mainContent:'mainContent2',
-						code:'codecodecodecodecode2',
-						heading:'heading2',
-						headingContent:'headingContent2',
-						subHeading:'subHeading2',
-						subHeadingContent:'subHeadingContent2',
-						summary:'summary2'}],
-					quote:'quote2'
-				},
-				2:{
-					id:2,
-					title:'Blog title02',
-					month:'Februrary',
-					day:'3',
-					year:'2016',
-					author:'diandian3',
-					strongWord:'strongWord3',
-					content:[{
-						introduction:'introduction3',
-						firstParagraph:'fistParagraph3',
-						secondParagraph:'secondParagraph3',
-						mainContent:'mainContent3',
-						code:'codecodecodecodecode3',
-						heading:'heading3',
-						headingContent:'headingContent3',
-						subHeading:'subHeading3',
-						subHeadingContent:'subHeadingContent3',
-						summary:'summary3'}],
-					quote:'quote3'
-				}
-			},
-			pages:{
-				isFirstPage:true,
-				isLastPage:true,
-				page_capacity:20,
-				page_count:4,
-				page_number:1,
-				total_count:'4'
-			}
-		}
+	conn.query('select * from blogList', function(err, results) {
+		var resultData={};
+    	if (err){
+    		resultData.code=-1;
+    		resultData.message='获取当前博客数据失败';
+    	}else{
+    		resultData.code=0;
+    		resultData.message='';
+    		resultData.data=results;    		
+    	}
+    	queryOneBlog(resultData);
+    	// console.log(resultData);
+    	
 	});
-	res.end();
+	conn.end();
+	var selectedID = 1;
+	function queryOneBlog(obj){
+		var arr = obj.data;
+		arr.forEach(function(value,key){
+			console.log(value);
+			if(value.id===selectedID){
+				obj.data=value;
+				console.log(obj);
+				res.send(obj);
+				res.end();
+			}
+		});
+	}
+	
 });
+/*获取所有博客列表*/
+app.get('/site/get-blog-list',function(req,res){
+	conn.query('select * from blogList', function(err, results) {
+		// console.log(results);
+		var resultData={};
+    	if (err){
+    		resultData.code=-1;
+    		resultData.message='获取博客数据失败';
+    	}else{
+    		resultData.code=0;
+    		resultData.message='';
+    		resultData.data=results;
+    	}
+    	console.log(resultData);
+    	queryAllBlog(resultData);
+    	
+    	
+	});
+	conn.end();
+	function queryAllBlog(obj){
+		res.send(obj);
+		res.end();
+	}
+});
+/**/
 app.listen(9002,function(req,res){
 	console.log('app is running at prt 9002');
 });
 
-/*app.get('/',function(req,res){
-	fs.readFile('../index.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});	
-});
-app.get('/bootstrap/css/bootstrap.min.css',function(req,res){
-	fs.readFile('../bootstrap/css/bootstrap.min.css','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/css;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/css/index.css',function(req,res){
-	fs.readFile('../css/index.css','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/css;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/js/lib/angular.js',function(req,res){
-	fs.readFile('../js/lib/angular.js','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/javascript;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/js/lib/angular-ui-router.js',function(req,res){
-	fs.readFile('../js/lib/angular-ui-router.js','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/javascript;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/js/lib/angular-upload.min.js',function(req,res){
-	fs.readFile('../js/lib/angular-upload.min.js','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/javascript;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/js/app/main.js',function(req,res){
-	fs.readFile('../js/app/main.js','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/javascript;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/views/include/nav.html',function(req,res){
-	fs.readFile('../views/include/nav.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/views/include/bg.html',function(req,res){
-	fs.readFile('../views/include/bg.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/views/include/footer.html',function(req,res){
-	fs.readFile('../views/include/footer.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/views/index/index.html',function(req,res){
-	fs.readFile('../views/index/index.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/views/index/link.html',function(req,res){
-	fs.readFile('../views/index/link.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/views/index/profile.html',function(req,res){
-	fs.readFile('../views/index/profile.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/views/index/readMore.html',function(req,res){
-	fs.readFile('../views/index/readMore.html','utf-8',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','text/html;charset=utf-8');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/img/me.jpg',function(req,res){
-	fs.readFile('../img/me.jpg',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','image/jpeg');
-		res.write(data);
-		res.end();
-	});
-});
-app.get('/img/bg.jpg',function(req,res){
-	fs.readFile('../img/bg.jpg',function(err,data){
-		if(err)throw err;
-		console.log(data);
-		res.setHeader('content-type','image/jpeg');
-		res.write(data);
-		res.end();
-	});
-});*/
