@@ -53,35 +53,35 @@ conn.query(updateSql, function (err3, res3) {
 获取某一篇博客
  */
 app.get('/site/get-blog',function(req,res){
-	conn.query('select * from blogList', function(err, results) {
-		var resultData={};
-    	if (err){
-    		resultData.code=-1;
-    		resultData.message='获取当前博客数据失败';
-    	}else{
-    		resultData.code=0;
-    		resultData.message='';
-    		resultData.data=results;    		
-    	}
-    	queryOneBlog(resultData);
-    	// console.log(resultData);
-    	
-	});
-	conn.end();
-	var selectedID = 1;
-	function queryOneBlog(obj){
-		var arr = obj.data;
-		arr.forEach(function(value,key){
-			console.log(value);
-			if(value.id===selectedID){
-				obj.data=value;
-				console.log(obj);
-				res.send(obj);
-				res.end();
-			}
-		});
-	}
-	
+    conn.query('select * from blogList', function(err, results) {
+        var resultData={};
+        if (err){
+            resultData.code=-1;
+            resultData.message='获取当前博客数据失败';
+        }else{
+            resultData.code=0;
+            resultData.message='';
+            resultData.data=results;            
+        }
+        queryOneBlog(resultData);
+        // console.log(resultData);
+
+    });
+    var selectedID = +req.query.id;
+    console.log('===>'+selectedID);
+    function queryOneBlog(obj){
+        // console.log('in queryOneBlog',obj);
+        var arr = obj.data;
+        arr.forEach(function(value,key){
+            console.log(value.id,selectedID);
+            if(value.id===selectedID){
+                obj.data=value;
+                // console.log(obj);
+                res.send(obj);
+                res.end();
+            }
+        });
+    }    
 });
 /*获取所有博客列表*/
 app.get('/site/get-blog-list',function(req,res){
@@ -96,12 +96,9 @@ app.get('/site/get-blog-list',function(req,res){
     		resultData.message='';
     		resultData.data=results;
     	}
-    	console.log(resultData);
+    	// console.log(resultData);
     	queryAllBlog(resultData);
-    	
-    	
 	});
-	conn.end();
 	function queryAllBlog(obj){
 		res.send(obj);
 		res.end();

@@ -3,10 +3,13 @@
 		<div class="blog-post" ng-repeat="blog in blogList">
 			<h2 class="blog-post-title">{{blog.title}}</h2>
 			<p class="blog-post-date">
-				{{blog.month}} {{blog.day}},{{blog.year}} by
+				{{blog.dateTime}} by
 				<a href="javascript:;">{{blog.author}}</a>
 			</p>
-			<p>
+			<div class="ng-binding" ng-bind-html="blog.content|to_trusted"></div>
+			<h3>Summary</h3>
+			<p>{{blog.summary}}</p>
+			<!-- <p>
 				{{blog.content[0].introduction}}
 			</p>
 			<hr>
@@ -21,7 +24,7 @@
 			</blockquote>
 			<p>
 				{{blog.content[0].secondParagraph}}
-			</p>
+			</p> -->
 			<!-- <pre>
 				<code>{{blog.content[0].code}}</code>
 			</pre>
@@ -33,7 +36,8 @@
 			<p>
 				{{blog.content[0].subHeadingContent}}
 			</p> -->
-			<a href="/index/readmore" class="readmore">点击查看详情……</a>
+			<a href="/index/readmore?id={{blog.id}}" class="readmore" ng-click="readmore(blog.id)">点击查看详情……</a>
+
 		</div>
 		<!-- <nav>
 			<ul class="pager">
@@ -64,7 +68,7 @@
 		<div class="subcontent">
 			<h2>blog log</h2>
 			<ol class="list-unstyled" ng-repeat="blog in blogList">
-				<li><a href="#">{{blog.month}}{{blog.year}}</a></li>
+				<li><a href="#">{{blog.dateTime}}</a></li>
             </ol>
 		</div>
 	</div>

@@ -67,14 +67,12 @@ app.controller('indexCtrl',['$scope','blog','MyError','myHttp',function($scope,b
 	console.log('index controller');
 	$scope.message = '';
 	/*回到顶部*/
-	$scope.toTop = function(){
-		
+	$scope.toTop = function(){		
 		$scope.scrollUpTimer = null;
 		clearInterval($scope.scrollUpTimer);
 		$scope.scrollTop = document.body.scrollTop||document.documentElement.scrollTop;
 		$scope.scrollUpTimer = setInterval(function(){
-			$scope.curScrollTop = document.body.scrollTop||document.documentElement.scrollTop;
-			
+			$scope.curScrollTop = document.body.scrollTop||document.documentElement.scrollTop;		
 			if($scope.curScrollTop <= 0){
 				clearInterval($scope.scrollUpTimer);
 			}
@@ -96,12 +94,12 @@ app.controller('indexCtrl',['$scope','blog','MyError','myHttp',function($scope,b
 		// alert(1);
 		blog.getBlogList().then(function(data){
 
-			$scope.blogList = data.blogList;
+			$scope.blogList = data;
 			console.log($scope.blogList);
-			$scope.pagination = data.pages;
-			console.log($scope.pagination);
-			$scope.pagination.isFirstPage = +$scope.pagination.page_number === 1;
-			$scope.pagination.isLastPage = +$scope.pagination.page_number === +$scope.pagination.page_count;
+			// $scope.pagination = data.pages;
+			// console.log($scope.pagination);
+			// $scope.pagination.isFirstPage = +$scope.pagination.page_number === 1;
+			// $scope.pagination.isLastPage = +$scope.pagination.page_number === +$scope.pagination.page_count;
 		},function(err){
 			console.log(err);
 		});
@@ -111,8 +109,15 @@ app.controller('indexCtrl',['$scope','blog','MyError','myHttp',function($scope,b
 		if(page<1)page=1;
 		if(page>$scope.pagination.page_count)page = $scope.pagination.page_count;
 		
+	};*/
+	
+}]);
+/*angular输出html代码*/
+app.filter('to_trusted',['$sce',function($sce){
+	return function(text){
+		return $sce.trustAsHtml(text);
 	};
-*/}]);
+}]);
 
 /*profile 控制器*/
 app.controller('profileCtrl',function($scope){
@@ -123,31 +128,23 @@ app.controller('linkCtrl',function($scope){
 	// $scope.message = '';
 });
 /*阅读详情控制器*/
-app.controller('readmoreCtrl',['$scope','blog',function($scope,blog){
-	// $scope.message = '';
-	$scope.content={};
+app.controller('readmoreCtrl',['$scope','blog','$stateParams',function($scope,blog,$stateParams){
+	$scope.id = $stateParams.id || '1';
+	console.log($scope.id);
 	$scope.readmore = function(id){
 		blog.getBlog(id).then(function(data){
+			$scope.blog={};
 			console.log(data);
-			$scope.content.title= data.title;
-			$scope.content.month = data.month;
-			$scope.content.day = data.day;
-			$scope.content.year = data.year;
-			$scope.content.author = data.author;
-			$scope.content.firstParagraph = data.content[0].firstParagraph;
-			$scope.content.secondParagraph = data.content[0].secondParagraph;
-			$scope.content.introduction = data.content[0].introduction;
-			$scope.content.heading = data.content[0].heading;
-			$scope.content.headingContent = data.content[0].headingContent;
-			$scope.content.subHeading = data.content[0].subHeading;
-			$scope.content.subHeadingContent = data.content[0].subHeadingContent;
-			$scope.content.summary= data.content[0].summary;
-			$scope.content.quote = data.quote;
-			$scope.content.strongWord = data.strongWord;
-			$scope.content.code = data.content[0].code;
+			$scope.blog.id = data.id;
+			$scope.blog.title= data.title;
+			$scope.blog.dateTime = data.dateTime;
+			$scope.blog.author = data.author;
+			$scope.blog.heading = data.heading;
+			$scope.blog.subHeading = data.subHeading;
+			$scope.blog.summary = data.summary;
+			$scope.blog.content = data.content;
 		});
-	};
-	
+	};	
 }]);
 
 /*设置路由*/
@@ -172,7 +169,7 @@ app.config([
 			templateUrl:'/views/index/link.html',
 			controller:'linkCtrl'
 		}).state('readmore',{
-			url:'/index/readmore',
+			url:'/index/readmore?id',
 			templateUrl:'/views/index/readmore.html',
 			controller:'readmoreCtrl'
 		})
@@ -182,3 +179,6 @@ app.config([
 /*app.factory('MyError',require('./service/MyError'));
 app.factory('MyHttp',require('./service/MyHttp'));
 app.factory('blog',require('./service/blog'));*/
+
+
+

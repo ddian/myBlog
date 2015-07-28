@@ -1,12 +1,12 @@
-<div class="row" ng-init="readmore(1)">
+<div class="row" ng-init="readmore(id)">
 	<div class="col-md-12">
 		<div class="blog-post">
-			<h2 class="blog-post-title">{{content.title}}</h2>
+			<h2 class="blog-post-title">{{blog.title}}</h2>
 			<p class="blog-post-date">
-				{{content.month}} {{content.day}} ,{{content.year}}by
-				<a href="javascript:;">{{content.author}}</a>
+				{{blog.dateTime}}by
+				<a href="javascript:;">{{blog.author}}</a>
 			</p>
-			<div class="blog-content">
+			<!-- <div class="blog-content">
 				<p>
 					{{content.introduction}}
 				</p>
@@ -34,7 +34,10 @@
 				</p>
 				<h3>Summary</h3>
 				<p>{{content.summary}}</p>
-			</div>
+			</div> -->
+			<div class="ng-binding" ng-bind-html="blog.content|to_trusted"></div>
+			<h3>Summary</h3>
+			<p>{{blog.summary}}</p>
 		</div>
 		
 	</div>
